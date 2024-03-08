@@ -30,19 +30,27 @@ class Helper{
             <li>
             <a href="javascript:void(0);">Category<i class="ti-angle-down"></i></a>
                 <ul class="dropdown border-0 shadow">
+                      <!-- Additional options -->
+                      <li><a href="{{route('product-lists') }}">Makanan</a></li>
+                      <li><a href="{{ route('product.lists', ['category' => 'minuman']) }}">Minuman</a></li>
+                      <li><a href="{{ route('product.lists', ['category' => 'alat-tulis']) }}">Alat Tulis</a></li>
+                      <li><a href="{{ route('product.lists', ['category' => 'barang-lain']) }}">Barang Lain</a></li>
+
+
                 <?php
                     foreach($menu as $cat_info){
                         if($cat_info->child_cat->count()>0){
                             ?>
-                            <li><a href="<?php echo route('product-cat',$cat_info->slug); ?>"><?php echo $cat_info->title; ?></a>
+                            <li>
+                                <a href="<?php echo route('product-cat',$cat_info->slug); ?>"><?php echo $cat_info->title; ?></a>
                                 <ul class="dropdown sub-dropdown border-0 shadow">
                                     <?php
                                     foreach($cat_info->child_cat as $sub_menu){
                                         ?>
-                                        <li><a href="<?php echo route('product-sub-cat',[$cat_info->slug,$sub_menu->slug]); ?>"><?php echo $sub_menu->title; ?></a></li>
+                                        <li>
+                                            <a href="<?php echo route('product-sub-cat',[$cat_info->slug,$sub_menu->slug]); ?>"><?php echo $sub_menu->title; ?></a></li>
                                         <?php
-                                    }
-                                    ?>
+                                    } ?>
                                 </ul>
                             </li>
                             <?php
@@ -55,20 +63,33 @@ class Helper{
                     }
                     ?>
                 </ul>
+                  <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var dropdownToggles = document.querySelectorAll('.dropdown');
+
+                        dropdownToggles.forEach(function(toggle) {
+                            toggle.addEventListener('click', function(){
+                                var dropdown = toggle.querySelector('.sub-dropdown');
+                                dropdown.classList.toggle('show');
+        });
+    });
+});
+
+</script>
             </li>
         <?php
         }
     }
 
     public static function productCategoryList($option='all'){
-        if($option='all'){
+        if($option=='all'){
             return Category::orderBy('id','DESC')->get();
         }
         return Category::has('products')->orderBy('id','DESC')->get();
     }
 
     public static function postTagList($option='all'){
-        if($option='all'){
+        if($option=='all'){
             return PostTag::orderBy('id','desc')->get();
         }
         return PostTag::has('posts')->orderBy('id','desc')->get();
@@ -150,14 +171,14 @@ class Helper{
         $order=Order::find($id);
         dd($id);
         if($order){
-            $shipping_price=(float)$order->shipping->price;
-            $order_price=self::orderPrice($id,$user_id);
-            return number_format((float)($order_price+$shipping_price),2,'.','');
-        }else{
-            return 0;
+            $shipping_price = (float)$order->shipping->price;
+            $order_price = self::orderPrice($id, $user_id);
+            $total_price = $order_price + $shipping_price;
+            return 'Rp ' . number_format($total_price, 2, ',', '.');
+        } else {
+            return 'Rp 0';
         }
     }
-
 
     // Admin home
     public static function earningPerMonth(){
