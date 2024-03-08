@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title','E-SHOP || PRODUCT PAGE')
+@section('title','JAVEER || PRODUCT PAGE')
 
 @section('main-content')
 	<!-- Breadcrumbs -->
@@ -13,6 +13,9 @@
                             <li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
                             <li class="active"><a href="blog-single.html">Shop Grid</a></li>
                         </ul>
+                    </div>
+                    <div style="position: relative;">
+                        <img src="{{asset('backend/img/gambar 1.png')}}" style="position: absolute; top: 0; right: 0; width:100px;height:auto;">
                     </div>
                 </div>
             </div>
@@ -30,7 +33,7 @@
                         <div class="shop-sidebar">
                                 <!-- Single Widget -->
                                 <div class="single-widget category">
-                                    <h3 class="title">Categories</h3>
+                                    <h3 class="title">Kategori</h3>
                                     <ul class="categor-list">
 										@php
 											// $category = new Category();
@@ -61,32 +64,10 @@
                                     </ul>
                                 </div>
                                 <!--/ End Single Widget -->
-                                <!-- Shop By Price -->
-                                    <div class="single-widget range">
-                                        <h3 class="title">Shop by Price</h3>
-                                        <div class="price-filter">
-                                            <div class="price-filter-inner">
-                                                @php
-                                                    $max=DB::table('products')->max('price');
-                                                    // dd($max);
-                                                @endphp
-                                                <div id="slider-range" data-min="0" data-max="{{$max}}"></div>
-                                                <div class="product_filter">
-                                                <button type="submit" class="filter_button">Filter</button>
-                                                <div class="label-input">
-                                                    <span>Range:</span>
-                                                    <input style="" type="text" id="amount" readonly/>
-                                                    <input type="hidden" name="price_range" id="price_range" value="@if(!empty($_GET['price'])){{$_GET['price']}}@endif"/>
-                                                </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <!--/ End Shop By Price -->
+                              
                                 <!-- Single Widget -->
-                                <div class="single-widget recent-post">
-                                    <h3 class="title">Recent post</h3>
+                                {{-- <div class="single-widget recent-post">
+                                    <h3 class="title">Makanan Minuman Terbaru</h3> --}}
                                     {{-- {{dd($recent_products)}} --}}
                                     @foreach($recent_products as $product)
                                         <!-- Single Post -->
@@ -102,16 +83,17 @@
                                                 @php
                                                     $org=($product->price-($product->price*$product->discount)/100);
                                                 @endphp
-                                                <p class="price"><del class="text-muted">${{number_format($product->price,2)}}</del>   ${{number_format($org,2)}}  </p>
+                                               <p class="price"><del class="text-muted">Rp{{number_format($product->price * $exchange_rate, 0, ',', '.')}}</del>   Rp{{number_format($org * $exchange_rate, 0, ',', '.')}}  </p>
 
                                             </div>
                                         </div>
                                         <!-- End Single Post -->
                                     @endforeach
                                 </div>
+                                
                                 <!--/ End Single Widget -->
                                 <!-- Single Widget -->
-                                <div class="single-widget category">
+                                {{-- <div class="single-widget category">
                                     <h3 class="title">Brands</h3>
                                     <ul class="categor-list">
                                         @php
@@ -121,7 +103,7 @@
                                             <li><a href="{{route('product-brand',$brand->slug)}}">{{$brand->title}}</a></li>
                                         @endforeach
                                     </ul>
-                                </div>
+                                </div> --}}
                                 <!--/ End Single Widget -->
                         </div>
                     </div>
@@ -145,12 +127,49 @@
                                             <label>Sort By :</label>
                                             <select class='sortBy' name='sortBy' onchange="this.form.submit();">
                                                 <option value="">Default</option>
-                                                <option value="title" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='title') selected @endif>Name</option>
-                                                <option value="price" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='price') selected @endif>Price</option>
-                                                <option value="category" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='category') selected @endif>Category</option>
-                                                <option value="brand" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='brand') selected @endif>Brand</option>
+                                                <option value="snack" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='snack') selected @endif>Makanan Ringan</option>
+                                                <option value="heavy_food" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='heavy_food') selected @endif>Makanan Berat</option>
+                                                <option value="hot_drinks" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='hot_drinks') selected @endif>Minuman Panas</option>
+                                                <option value="cold_drinks" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='cold_drinks') selected @endif>Minuman Es</option>
+                                                <option value="stationery" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='stationery') selected @endif>Alat Tulis</option>
+                                                <option value="others" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='others') selected @endif>Barang lain</option>
+
                                             </select>
                                         </div>
+
+                                        <div class="single-shorter">
+                                            <label>Gerai</label>
+                                            <select class="gerai" name="gerai" onchange="this.form.submit();">
+                                                <option value="">Semua Gerai</option>
+                                                <option  value="gerai_a">Gerai A</option>
+                                                <option value="gerai_b">Gerai B</option>
+                                                <option value="gerai_c">Gerai C</option>
+                                                <option value="gerai_d">Gerai D</option>
+                                            </select>
+                                            <button onclick="filterByGerai()">Filter</button>
+                                        </div>
+                                        <div class="product-list">
+                                        </div>
+
+                                        <script>
+                                            function filterByGerai() {
+                                                var selectedGerai = doxument getElementById("gerai-filter").value;
+                                                var products = document.getElementByClassName("product");
+
+                                                for (var i =0; i < product.length; i++) {
+                                                    var product = products[i];
+                                                    var gerai = product.getAttribute("data-gerai");
+
+                                                    if (selectedGerai === "" || gerai === selectedGerai) {
+                                                        product.style.display = "block";
+
+                                                    }else {
+                                                        product.style.display = "none";
+                                                    }
+                                                }
+                                            }
+                                        </script>
+                                    </div>
                                     </div>
                                     <ul class="view-mode">
                                         <li class="active"><a href="javascript:void(0)"><i class="fa fa-th-large"></i></a></li>
@@ -190,16 +209,17 @@
                                             <div class="product-content">
                                                 <h3><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
                                                 @php
-                                                    $after_discount=($product->price-($product->price*$product->discount)/100);
+                                                    $exchange_rate = 15000;
+                                                    $after_discount=($product->price-($product->price*$product->discount)/100) *exchange_rate;
                                                 @endphp
-                                                <span>${{number_format($after_discount,2)}}</span>
-                                                <del style="padding-left:4%;">${{number_format($product->price,2)}}</del>
+                                                <span>Rp{{number_format($after_discount_idr,0, ',', '.')}}</span>
+                                                <del style="padding-left:4%;">Rp{{number_format($product->price,0, ',', '.')}}</del>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
                             @else
-                                    <h4 class="text-warning" style="margin:100px auto;">There are no products.</h4>
+                                    <h4 class="text-warning" style="margin:100px auto;">Tidak ada produk yang tersedia saat ini .</h4>
                             @endif
 
 
@@ -283,9 +303,10 @@
                                                 </div>
                                             </div>
                                             @php
-                                                $after_discount=($product->price-($product->price*$product->discount)/100);
+                                            $exchange_rate = 15000;
+                                                $after_discount=($product->price-($product->price*$product->discount)/100)* $exchange_rate;
                                             @endphp
-                                            <h3><small><del class="text-muted">${{number_format($product->price,2)}}</del></small>    ${{number_format($after_discount,2)}}  </h3>
+                                            <h3><small><del class="text-muted">Rp{{number_format($product->price,0, ',', '.')}}</del></small>    Rp{{number_format($after_discount_idr,0,',', '.')}}  </h3>
                                             <div class="quickview-peragraph">
                                                 <p>{!! html_entity_decode($product->summary) !!}</p>
                                             </div>
@@ -422,8 +443,8 @@
         /*  Jquery Ui slider js
         /*----------------------------------------------------*/
         if ($("#slider-range").length > 0) {
-            const max_value = parseInt( $("#slider-range").data('max') ) || 500;
-            const min_value = parseInt($("#slider-range").data('min')) || 0;
+            const max_value = parseInt( $("#slider-range").data('max') ) || 20000;
+            const min_value = parseInt($("#slider-range").data('min')) || 500;
             const currency = $("#slider-range").data('currency') || '';
             let price_range = min_value+'-'+max_value;
             if($("#price_range").length > 0 && $("#price_range").val()){
