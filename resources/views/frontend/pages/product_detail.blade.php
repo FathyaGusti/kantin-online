@@ -14,7 +14,7 @@
 	<meta property="og:image" content="{{$product_detail->photo}}">
 	<meta property="og:description" content="{{$product_detail->description}}">
 @endsection
-@section('title','E-SHOP || PRODUCT DETAIL')
+@section('title','JAVEER || PRODUCT DETAIL')
 @section('main-content')
 
 		<!-- Breadcrumbs -->
@@ -84,7 +84,7 @@
                                                 @php 
                                                     $after_discount=($product_detail->price-(($product_detail->price*$product_detail->discount)/100));
                                                 @endphp
-												<p class="price"><span class="discount">${{number_format($after_discount,2)}}</span><s>${{number_format($product_detail->price,2)}}</s> </p>
+												<p class="price"><span class="discount">Rp{{number_format($after_discount,0,',', '.')}}</span><s>Rp{{number_format($product_detail->price,0, ',', '.')}}</s> </p>
 												<p class="description">{!!($product_detail->summary)!!}</p>
 											</div>
 											<!--/ End Description -->
@@ -139,7 +139,7 @@
 													<!--/ End Input Order -->
 													</div>
 													<div class="add-to-cart mt-4">
-														<button type="submit" class="btn">Add to cart</button>
+														<button type="submit" class="btn">Masukkan ke Keranjang</button>
 														<a href="{{route('add-to-wishlist',$product_detail->slug)}}" class="btn min"><i class="ti-heart"></i></a>
 													</div>
 												</form>
@@ -160,8 +160,8 @@
 											<div class="nav-main">
 												<!-- Tab Nav -->
 												<ul class="nav nav-tabs" id="myTab" role="tablist">
-													<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a></li>
-													<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews</a></li>
+													<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description" role="tab">Uraian Deskripsi </a></li>
+													<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Penilaian</a></li>
 												</ul>
 												<!--/ End Tab Nav -->
 											</div>
@@ -188,10 +188,10 @@
 																<!-- Review -->
 																<div class="comment-review">
 																	<div class="add-review">
-																		<h5>Add A Review</h5>
-																		<p>Your email address will not be published. Required fields are marked</p>
+																		<h5>Beri Ulasan Kamu<h5>
+																		<p>Informasi Email Kamu tetap Rahasia.Harap isi kolom yang diperlukan yang ditandai *."</p>
 																	</div>
-																	<h4>Your Rating <span class="text-danger">*</span></h4>
+																	<h4>Berikan Rating<span class="text-danger">*</span></h4>
 																	<div class="review-inner">
 																			<!-- Form -->
 																@auth
@@ -333,11 +333,11 @@
                                         <div class="button-head">
                                             <div class="product-action">
                                                 <a data-toggle="modal" data-target="#modelExample" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                                                <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+                                                <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Tambahkan ke Favorite</span></a>
                                                 <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
                                             </div>
                                             <div class="product-action-2">
-                                                <a title="Add to cart" href="#">Add to cart</a>
+                                                <a title="Add to cart" href="#">Masukkan ke keranjang</a>
                                             </div>
                                         </div>
                                     </div>
@@ -347,8 +347,8 @@
                                             @php 
                                                 $after_discount=($data->price-(($data->discount*$data->price)/100));
                                             @endphp
-                                            <span class="old">${{number_format($data->price,2)}}</span>
-                                            <span>${{number_format($after_discount,2)}}</span>
+                                            <span class="old">Rp{{number_format($data->price,0,',', '.')}}</span>
+                                            <span>Rp{{number_format($after_discount,0,',', '.')}}</span>
                                         </div>
                                       
                                     </div>
@@ -456,11 +456,11 @@
                                 <!--/ End Input Order -->
                             </div>
                             <div class="add-to-cart">
-                                <a href="#" class="btn">Add to cart</a>
+                                <a href="#" class="btn">Masukkan ke Keranjang</a>
                                 <a href="#" class="btn min"><i class="ti-heart"></i></a>
                                 <a href="#" class="btn min"><i class="fa fa-compress"></i></a>
                             </div>
-                            <div class="default-social">
+                            {{-- <div class="default-social">
                                 <h4 class="share-now">Share:</h4>
                                 <ul>
                                     <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
@@ -468,7 +468,7 @@
                                     <li><a class="youtube" href="#"><i class="fa fa-pinterest-p"></i></a></li>
                                     <li><a class="dribbble" href="#"><i class="fa fa-google-plus"></i></a></li>
                                 </ul>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
