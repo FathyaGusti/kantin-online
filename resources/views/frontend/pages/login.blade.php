@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title','E-Shop || Login Page')
+@section('title','JAVEER || Login Page')
 
 @section('main-content')
     <!-- Breadcrumbs -->
@@ -26,15 +26,15 @@
             <div class="row"> 
                 <div class="col-lg-6 offset-lg-3 col-12">
                     <div class="login-form">
-                        <h2>Login</h2>
-                        <p>Please register in order to checkout more quickly</p>
+                        <h2>Login Sekarang</h2>
+                        <p>Silahkan Masuk Untuk Melakukan Pemesanan</p>
                         <!-- Form -->
                         <form class="form" method="post" action="{{route('login.submit')}}">
                             @csrf
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label>Your Email<span>*</span></label>
+                                        <label>Maukkan Email Anda<span>*</span></label>
                                         <input type="email" name="email" placeholder="" required="required" value="{{old('email')}}">
                                         @error('email')
                                             <span class="text-danger">{{$message}}</span>
@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label>Your Password<span>*</span></label>
+                                        <label>Masukkan Password Anda<span>*</span></label>
                                         <input type="password" name="password" placeholder="" required="required" value="{{old('password')}}">
                                         @error('password')
                                             <span class="text-danger">{{$message}}</span>
@@ -61,11 +61,11 @@
 
                                     </div>
                                     <div class="checkbox">
-                                        <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">Remember me</label>
+                                        <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">Ingat Saya</label>
                                     </div>
                                     @if (Route::has('password.request'))
                                         <a class="lost-pass" href="{{ route('password.reset') }}">
-                                            Lost your password?
+                                            Lupa Password?
                                         </a>
                                     @endif
                                 </div>
