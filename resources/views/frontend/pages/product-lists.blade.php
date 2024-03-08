@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title','E-SHOP || PRODUCT PAGE')
+@section('title','JAVEER || PRODUCT PAGE')
 
 @section('main-content')
 	
@@ -12,9 +12,11 @@
 						<div class="bread-inner">
 							<ul class="bread-list">
 								<li><a href="{{route('home')}}">Home<i class="ti-arrow-right"></i></a></li>
-								<li class="active"><a href="javascript:void(0);">Shop List</a></li>
+								<li class="active"><a href="{{ route('cart')}}">Shop List</a></li>
 							</ul>
 						</div>
+						<div style="position: relative;">
+							<img src="{{asset('backend/img/gambar 1.png')}}" style="position: absolute; top: 0; right: 0; width:100px;height:auto;">
 					</div>
 				</div>
 			</div>
@@ -29,82 +31,76 @@
 						<div class="col-lg-3 col-md-4 col-12">
 							<div class="shop-sidebar">
                                 <!-- Single Widget -->
-                                <div class="single-widget category">
-                                    <h3 class="title">Categories</h3>
-                                    <ul class="categor-list">
+								<div class="single-widget category">
+									<h3 class="title">Kategori</h3>
+									<ul class="categor-list">
 										@php
-											// $category = new Category();
-											$menu=App\Models\Category::getAllParentWithChild();
+											$menu = App\Models\Category::getAllParentWithChild();
 										@endphp
 										@if($menu)
-										<li>
 											@foreach($menu as $cat_info)
-													@if($cat_info->child_cat->count()>0)
-														<li><a href="{{route('product-cat',$cat_info->slug)}}">{{$cat_info->title}}</a>
-															<ul>
-																@foreach($cat_info->child_cat as $sub_menu)
-																	<li><a href="{{route('product-sub-cat',[$cat_info->slug,$sub_menu->slug])}}">{{$sub_menu->title}}</a></li>
-																@endforeach
-															</ul>
-														</li>
-													@else
-														<li><a href="{{route('product-cat',$cat_info->slug)}}">{{$cat_info->title}}</a></li>
+												<li>
+													<a href="{{ route('product-cat', $cat_info->slug) }}">{{ $cat_info->title }}</a>
+													<!-- Cek apakah kategori memiliki subkategori -->
+													@if($cat_info->child_cat->count() > 0)
+														<ul class="sub-menu">
+															<!-- Iterasi melalui setiap subkategori -->
+															@foreach($cat_info->child_cat as $sub_menu)
+																<li><a href="{{ route('product-sub-cat', [$cat_info->slug, $sub_menu->slug]) }}">{{ $sub_menu->title }}</a></li>
+															@endforeach
+														</ul>
 													@endif
+												</li>
 											@endforeach
-										</li>
 										@endif
-                                        {{-- @foreach(Helper::productCategoryList('products') as $cat)
-                                            @if($cat->is_parent==1)
-												<li><a href="{{route('product-cat',$cat->slug)}}">{{$cat->title}}</a></li>
-											@endif
-                                        @endforeach --}}
-                                    </ul>
-                                </div>
+									</ul>
+								</div>
+								
                                 <!--/ End Single Widget -->
                                 <!-- Shop By Price -->
-								<div class="single-widget range">
-									<h3 class="title">Shop by Price</h3>
+								 <div class="single-widget range">
+									<h3 class="title">Filter Harga</h3>
 									<div class="price-filter">
-										<div class="price-filter-inner">
-											{{-- <div id="slider-range" data-min="10" data-max="2000" data-currency="%"></div>
+										<div class="price-filter-inner"> 
+											 <div id="slider-range" data-min="10" data-max="2000" data-currency="%"></div>
 												<div class="price_slider_amount">
 												<div class="label-input">
-													<span>Range:</span>
+													<span>Harga:</span>
 													<input type="text" id="amount" name="price_range" value='@if(!empty($_GET['price'])) {{$_GET['price']}} @endif' placeholder="Add Your Price"/>
 												</div>
 											</div> --}}
 											@php
 												$max=DB::table('products')->max('price');
-												// dd($max);
+												 dd($max);
 											@endphp
-											<div id="slider-range" data-min="0" data-max="{{$max}}"></div>
+											 <div id="slider-range" data-min="0" data-max="{{$max}}"></div>
 											<div class="product_filter">
 											<button type="submit" class="filter_button">Filter</button>
 											<div class="label-input">
-												<span>Range:</span>
+												<span>Harga:</span>
 												<input style="" type="text" id="amount" readonly/>
 												<input type="hidden" name="price_range" id="price_range" value="@if(!empty($_GET['price'])){{$_GET['price']}}@endif"/>
 											</div>
 											</div>
 										</div>
-									</div>
-									{{-- <ul class="check-box-list">
+									</div> 
+									 <ul class="check-box-list">
 										<li>
-											<label class="checkbox-inline" for="1"><input name="news" id="1" type="checkbox">$20 - $50<span class="count">(3)</span></label>
+											<label class="checkbox-inline" for="1"><input name="news" id="1" type="checkbox">Murah (Rp.500-Rp..5000)<span class="count">(5)</span></label>
 										</li>
 										<li>
-											<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">$50 - $100<span class="count">(5)</span></label>
+											<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">Sedang (Rp.10-000-15.000)<span class="count">(10)</span></label>
 										</li>
 										<li>
-											<label class="checkbox-inline" for="3"><input name="news" id="3" type="checkbox">$100 - $250<span class="count">(8)</span></label>
+											<label class="checkbox-inline" for="3"><input name="news" id="3" type="checkbox">Mahal (Rp.15.000-20.000)<span class="count">(15)</span></label>
 										</li>
-									</ul> --}}
+									</ul> 
 								</div>
-								<!--/ End Shop By Price -->
+								<!-- End Shop By Price -->
                                 <!-- Single Widget -->
-                                <div class="single-widget recent-post">
-                                    <h3 class="title">Recent post</h3>
-                                    {{-- {{dd($recent_products)}} --}}
+                                 {{-- <div class="single-widget recent-post">
+                                    <h3 class="title">Recent post</h3> 
+                                     {{dd($recent_products)}} --
                                     @foreach($recent_products as $product)
                                         <!-- Single Post -->
                                         @php 
@@ -117,17 +113,17 @@
                                             <div class="content">
                                                 <h5><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h5>
                                                 @php
-                                                    $org=($product->price-($product->price*$product->discount)/100);
+                                                    $org=($product->price *($product->price*$product->discount)/100) * 15000;
                                                 @endphp
-                                                <p class="price"><del class="text-muted">${{number_format($product->price,2)}}</del>   ${{number_format($org,2)}}  </p>                                                
+                                                <p class="price"><del class="text-muted"> RP{{number_format($product->price,0, ',', '.')}}</del>   Rp{{number_format($org,0,',', '.')}}  </p>                                                
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <!-- End Single Post -->
-                                    @endforeach
-                                </div>
+                                    {{-- @endforeach --}}
+                                { </div> 
                                 <!--/ End Single Widget -->
                                 <!-- Single Widget -->
-                                <div class="single-widget category">
+                                {{-- <div class="single-widget category">
                                     <h3 class="title">Brands</h3>
                                     <ul class="categor-list">
                                         @php
@@ -137,7 +133,7 @@
                                             <li><a href="{{route('product-brand',$brand->slug)}}">{{$brand->title}}</a></li>
                                         @endforeach
                                     </ul>
-                                </div>
+                                </div> --}}
                                 <!--/ End Single Widget -->
                         	</div>
 						</div>
@@ -161,12 +157,45 @@
 												<label>Sort By :</label>
 												<select class='sortBy' name='sortBy' onchange="this.form.submit();">
 													<option value="">Default</option>
-													<option value="title" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='title') selected @endif>Name</option>
-													<option value="price" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='price') selected @endif>Price</option>
-													<option value="category" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='category') selected @endif>Category</option>
-													<option value="brand" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='brand') selected @endif>Brand</option>
+													<option value="snack" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='snack') selected @endif>Makanan Ringan</option>
+													<option value="heavy_food" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='heavy_food') selected @endif>Makanan Berat</option>
+													<option value="hot_drinks" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='hot_drinks') selected @endif>Minuman Panas</option>
+													<option value="cold_drinks" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='cold_drinks') selected @endif>Minuman Dingin</option>
+													<option value="others" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='others') selected @endif>Barang Lain</option>
 												</select>
 											</div>
+											<div class="single-shorter">
+												<label>Gerai</label>
+												<select class="gerai" name="gerai" onchange="this.form.submit();">
+													<option value="">Semua Gerai</option>
+													<option  value="gerai_a">Gerai A</option>
+													<option value="gerai_b">Gerai B</option>
+													<option value="gerai_c">Gerai C</option>
+													<option value="gerai_d">Gerai D</option>
+												</select>
+												<button onclick="filterByGerai()">Filter</button>
+											</div>
+											<div class="product-list">
+											</div>
+
+											<script>
+												function filterByGerai() {
+													var selectedGerai = doxument getElementById("gerai-filter").value;
+													var products = document.getElementByClassName("product");
+
+													for (var i =0; i < product.length; i++) {
+														var product = products[i];
+														var gerai = product.getAttribute("data-gerai");
+
+														if (selectedGerai === "" || gerai === selectedGerai) {
+															product.style.display = "block";
+
+														}else {
+															product.style.display = "none";
+														}
+													}
+												}
+											</script>
 										</div>
 										<ul class="view-mode">
 											<li><a href="{{route('product-grids')}}"><i class="fa fa-th-large"></i></a></li>
@@ -227,7 +256,7 @@
 										<!-- End Single List -->
 									@endforeach
 								@else
-									<h4 class="text-warning" style="margin:100px auto;">There are no products.</h4>
+									<h4 class="text-warning" style="margin:100px auto;">Tidak ada produk yang tersedia saat ini.</h4>
 								@endif
 							</div>
 							 <div class="row">
@@ -416,15 +445,17 @@
         /*----------------------------------------------------*/
         /*  Jquery Ui slider js
         /*----------------------------------------------------*/
-        if ($("#slider-range").length > 0) {
-            const max_value = parseInt( $("#slider-range").data('max') ) || 500;
-            const min_value = parseInt($("#slider-range").data('min')) || 0;
+		User
+
+ if ($("#slider-range").length > 0) {
+            const max_value = parseInt( $("#slider-range").data('max') ) || 20000;
+            const min_value = parseInt($("#slider-range").data('min')) || 500;
             const currency = $("#slider-range").data('currency') || '';
             let price_range = min_value+'-'+max_value;
             if($("#price_range").length > 0 && $("#price_range").val()){
                 price_range = $("#price_range").val().trim();
             }
-            
+
             let price = price_range.split('-');
             $("#slider-range").slider({
                 range: true,
