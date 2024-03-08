@@ -8,65 +8,70 @@
 					<div class="col-lg-5 col-md-6 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer about">
-							<div class="logo">
-								<a href="index.html"><img src="{{asset('backend/img/logo2.png')}}" alt="#"></a>
+							<div class="">
+								<a href="index.html"><img src="{{asset('backend/img/1.png')}}" alt="#"></a>
 							</div>
 							@php
 								$settings=DB::table('settings')->get();
 							@endphp
 							<p class="text">@foreach($settings as $data) {{$data->short_des}} @endforeach</p>
-							<p class="call">Got Question? Call us 24/7<span><a href="tel:123456789">@foreach($settings as $data) {{$data->phone}} @endforeach</a></span></p>
+							<p class="call"><span><a href="tel:123456789">@foreach($settings as $data) {{$data->phone}} @endforeach</a></span></p>
 						</div>
 						<!-- End Single Widget -->
 					</div>
-					<div class="col-lg-2 col-md-6 col-12">
-						<!-- Single Widget -->
-						<div class="single-footer links">
-							<h4>Information</h4>
-							<ul>
-								<li><a href="{{route('about-us')}}">About Us</a></li>
-								<li><a href="#">Faq</a></li>
-								<li><a href="#">Terms & Conditions</a></li>
-								<li><a href="{{route('contact')}}">Contact Us</a></li>
-								<li><a href="#">Help</a></li>
-							</ul>
+					<div class="row">
+						<div class="col-lg-2 col-md-6 col-12"> 
+							<div class="single-footer links">
+								<h4>Kategori</h4>
+								<div class="category">
+									<ul>
+										<li><a href="#">Makanan</a></li>
+										<li><a href="#">Minuman</a></li>
+										<li><a href="#">Alat Tulis</a></li>
+										<li><a href="#">Barang Lain</a></li>
+									</ul>
+								</div>
+							</div>
 						</div>
-						<!-- End Single Widget -->
-					</div>
-					<div class="col-lg-2 col-md-6 col-12">
-						<!-- Single Widget -->
-						<div class="single-footer links">
-							<h4>Customer Service</h4>
-							<ul>
-								<li><a href="#">Payment Methods</a></li>
-								<li><a href="#">Money-back</a></li>
-								<li><a href="#">Returns</a></li>
-								<li><a href="#">Shipping</a></li>
-								<li><a href="#">Privacy Policy</a></li>
-							</ul>
-						</div>
-						<!-- End Single Widget -->
-					</div>
-					<div class="col-lg-3 col-md-6 col-12">
-						<!-- Single Widget -->
-						<div class="single-footer social">
-							<h4>Get In Tuch</h4>
-							<!-- Single Widget -->
-							<div class="contact">
+					
+						<div class="col-lg-2 col-md-6 col-12">
+							<div class="single-footer links">
+								<h4>Our Company</h4>
 								<ul>
-									<li>@foreach($settings as $data) {{$data->address}} @endforeach</li>
-									<li>@foreach($settings as $data) {{$data->email}} @endforeach</li>
-									<li>@foreach($settings as $data) {{$data->phone}} @endforeach</li>
+									<li><a href="#">Delivery</a></li>
+									<li><a href="#">Terms and Condition</a></li>
+									{{-- <li><a href="#">Kebijakan Privasi</a></li> --}}
 								</ul>
 							</div>
-							<!-- End Single Widget -->
-							<div class="sharethis-inline-follow-buttons"></div>
 						</div>
-						<!-- End Single Widget -->
+					
+						<div class="col-lg-2 col-md-6 col-12"> 
+							<div class="single-footer links">
+								<h4>Service</h4>
+								<div class="service">
+									<ul>
+										<li><a href="#">Fast</a></li>
+										<li><a href="#">New Product</a></li>
+										<li><a href="#">Best Sales</a></li>
+										<li><a href="#">Contact Us</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					
+						<div class="col-lg-2 col-md-6 col-12"> 
+							<div class="single-footer links">
+								<h4>Contact</h4>
+								<div class="contact">
+									<ul>
+										<li><i class="fa fa-map-marker"></i> SMKN 1 CIBINONG</li>
+										<li><i class="fa fa-phone"></i> 0882-1146-4597</li>
+										<li><i class="fa fa-envelope"></i> Javeer@gmail.com</li>
+									</ul>
+								</div>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-		</div>
 		<!-- End Footer Top -->
 		<div class="copyright">
 			<div class="container">
@@ -74,20 +79,16 @@
 					<div class="row">
 						<div class="col-lg-6 col-12">
 							<div class="left">
-								<p>Copyright © {{date('Y')}} <a href="https://github.com/Prajwal100" target="_blank">Prajwal Rai</a>  -  All Rights Reserved.</p>
+								<p>Copyright © {{date('Y')}} <a href="https://github.com/Prajwal100" target="_blank">Javeer</a>  -  All Rights Reserved.</p>
 							</div>
 						</div>
-						<div class="col-lg-6 col-12">
-							<div class="right">
-								<img src="{{asset('backend/img/payments.png')}}" alt="#">
+					</footer>
+					<!-- /End Footer Area -->
+						{{-- <div class="col-lg-6 col-12">
+							<div class="right" style="float: right; margin-left: 20px;">
+								<img src="{{asset('backend/img/mie.png')}}" alt="#" style="width: 100%; height:auto;">
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
-	<!-- /End Footer Area -->
+						</div> --}}
  
 	<!-- Jquery -->
     <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
