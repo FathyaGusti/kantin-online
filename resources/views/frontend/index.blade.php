@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title','E-SHOP || HOME PAGE')
+@section('title','JAVEER || HOME PAGE')
 @section('main-content')
 <!-- Slider Area -->
 @if(count($banners)>0)
@@ -70,37 +70,57 @@
 
 <!-- Start Product Area -->
 <div class="product-area section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-title">
-                        <h2>Trending Item</h2>
+    <div class="container">
+        <div class="section-title" style="position:relative;"></div>
+        <h1 style="margin-top: -20px; display: inline-block; vertical-align: top;">
+            <img src="{{ asset('backend/img/pastel.png') }}" alt="Pastel" style="float: right; margin-right: 50px; width: 150px; height: auto;">
+            Kantin Virtual
+        </h1>
+        <p style="margin-bottom: 5%; display: block;">SMKN 1 CIBINONG</p>
+    </div>
+        <div class="row">
+            <div class="col-12">
+                <h2 style="float: right; margin-right: 20px; margin-bottom: 70px;">
+                    Pesan Makanan dan<span style="display: block;">  Minuman Favorite Kamu !</span> 
+                    <a href="{{ route('product-lists' )}}" class="btn btn-primary ml-auto" style="margin-top: 10px;">Pesan Disini</a>
+                </h2>
+                <div style="clear: both;"></div>
+                <div class="position: absolute; top: 0; right:0; ">
+                    {{-- <img src="{{asset('backend/img/orange.png')}}" alt="#"> --}}
+                </div>
+                <div style="position: absolute; top: 0; right; 0; ">
+                    <a href="index.html">
+                        <img src="{{asset('backend/img/orang-removebg-preview.png')}}" alt="#" style="transform: scaleX(-1);" width="450px" height="auto">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="product-info">
+                    <div class="nav-main">
+                        <!-- Tab Nav -->
+                        <ul class="nav nav-tabs filter-tope-group" id="myTab" role="tablist">
+                            @php
+                                $categories=DB::table('categories')->where('status','active')->where('is_parent',1)->get();
+                                // dd($categories);
+                            @endphp
+                            {{-- @if($categories)
+                                <a href="{{ route('product-grids') }}" class="btn" style="background:rgb(231, 160, 67)">Semua Item</a>
+                                @foreach($categories as $key=>$cat)
+                                    <button class="btn" style="background:none;color:black;" data-filter=".{{$cat->id}}">
+                                        {{$cat->title}}
+                                    </button>
+                                @endforeach
+                            @endif --}}
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="product-info">
-                        <div class="nav-main">
-                            <!-- Tab Nav -->
-                            <ul class="nav nav-tabs filter-tope-group" id="myTab" role="tablist">
-                                @php
-                                    $categories=DB::table('categories')->where('status','active')->where('is_parent',1)->get();
-                                    // dd($categories);
-                                @endphp
-                                @if($categories)
-                                <button class="btn" style="background:black"data-filter="*">
-                                    All Products
-                                </button>
-                                    @foreach($categories as $key=>$cat)
-
-                                    <button class="btn" style="background:none;color:black;"data-filter=".{{$cat->id}}">
-                                        {{$cat->title}}
-                                    </button>
-                                    @endforeach
-                                @endif
-                            </ul>
-                            <!--/ End Tab Nav -->
+        </div>
+    </div>
+</div>
+        <!--/ End Tab Nav -->
                         </div>
                         <div class="tab-content isotope-grid" id="myTabContent">
                              <!-- Start Single Tab -->
@@ -130,11 +150,11 @@
                                             </a>
                                             <div class="button-head">
                                                 <div class="product-action">
-                                                    <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                                                    <a title="Wishlist" href="{{route('add-to-wishlist',$product->slug)}}" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+                                                    <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Lihat Pilihan</span></a>
+                                                    <a title="Wishlist" href="{{route('add-to-wishlist',$product->slug)}}" ><i class=" ti-heart "></i><span>Tambahkan ke dalam favorite</span></a>
                                                 </div>
                                                 <div class="product-action-2">
-                                                    <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Add to cart</a>
+                                                    <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Masukan ke keranjang</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -144,8 +164,8 @@
                                                 @php
                                                     $after_discount=($product->price-($product->price*$product->discount)/100);
                                                 @endphp
-                                                <span>${{number_format($after_discount,2)}}</span>
-                                                <del style="padding-left:4%;">${{number_format($product->price,2)}}</del>
+                                                <span>${{number_format($after_discount,0,',', '.')}}</span>
+                                                <del style="padding-left:4%;">Rp{{number_format($product->price,0, ',', )}}</del>
                                             </div>
                                         </div>
                                     </div>
@@ -183,7 +203,7 @@
                             <div class="content">
                                 <p>{{$data->cat_info['title']}}</p>
                                 <h3>{{$data->title}} <br>Up to<span> {{$data->discount}}%</span></h3>
-                                <a href="{{route('product-detail',$data->slug)}}">Shop Now</a>
+                                <a href="{{route('product-detail',$data->slug)}}">Beli Sekarang/a>
                             </div>
                         </div>
                     </div>
@@ -196,18 +216,30 @@
 <!-- End Midium Banner -->
 
 <!-- Start Most Popular -->
-<div class="product-area most-popular section">
+{{-- <div class="product-area most-popular section">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <h2>Hot Item</h2>
+                    <h2>Barang Keperluan Lain</h2>
                 </div>
+                <div class="text-center">
+                    @if($categories)
+                               <a href="{{ route('product-grids') }}" class="btn" style="background:rgb(220, 109, 5)">Semua Item</a>
+                               @foreach($categories as $key=>$cat)
+                                   <button class="btn" style="background:none;color:black;" data-filter=".{{$cat->id}}">
+                                       {{$cat->title}}
+                                   </button>
+                               @endforeach
+                           @endif
+                    
+                </div> --}}
             </div>
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="owl-carousel popular-slider">
+                    
                     @foreach($product_lists as $product)
                         @if($product->condition=='hot')
                             <!-- Start Single Product -->
@@ -225,21 +257,21 @@
                                 <div class="button-head">
                                     <div class="product-action">
                                         <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                                        <a title="Wishlist" href="{{route('add-to-wishlist',$product->slug)}}" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+                                        <a title="Wishlist" href="{{route('add-to-wishlist',$product->slug)}}" ><i class=" ti-heart "></i><span>Simpan Sebagai Favorite</span></a>
                                     </div>
                                     <div class="product-action-2">
-                                        <a href="{{route('add-to-cart',$product->slug)}}">Add to cart</a>
+                                        <a href="{{route('add-to-cart',$product->slug)}}">Masukkan Ke Keranjang</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="product-content">
                                 <h3><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
                                 <div class="product-price">
-                                    <span class="old">${{number_format($product->price,2)}}</span>
+                                    <span class="old">Rp{{number_format($product->price *15000, 0, ',', '.')}}</span>
                                     @php
-                                    $after_discount=($product->price-($product->price*$product->discount)/100)
+                                    $after_discount=($product->price-($product->price*$product->discount)/100) *15000;
                                     @endphp
-                                    <span>${{number_format($after_discount,2)}}</span>
+                                    <span>${{number_format($after_discount,0, ',', '.')}}</span>
                                 </div>
                             </div>
                         </div>
@@ -258,15 +290,50 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-12">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="shop-section-title">
-                            <h1>Latest Items</h1>
-                        </div>
-                    </div>
+                <div class="shop-section-title">
+                    <h1>Pilihan Kategori</h1>
                 </div>
-                <div class="row">
-                    @php
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="shop-item" style="position: relative;">
+                    <h3><a href="{{ route('product-grids') }}">Makanan</a></h3>
+                    <p>Tersedia Makanan Berat Makanan Ringan</p>
+                    <input type="hidden" name="category" value="makanan">
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="shop-item" style="position: relative;">
+                    <h3><a href="{{ route('product-grids') }}">Minuman</a></h3>
+                    <p>Tersedia Minuman Seduh dan Kemasan</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 text-center">
+            <div style="position: relative; margin-left: auto;">
+                <a href="index.html"><img src="{{asset('backend/img/makanan-removebg-preview.png')}}" alt="#" width="600px" height="auto"></a>
+            </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6 mb-4">
+                <div class="shop-item" style="position: relative; ">
+                    <h3><a href="{{ route('product-grids') }}">Alat Tulis</a></h3>
+                    <p>Tersedia Alat Tulis Sekolah</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="shop-item" style="position: relative; ">
+                    <h3><a href="{{ route('product-grids') }}">Barang Lain</a></h3>
+                    <p>Tersedia Barang Keperluan Lainnya</p>
+                </div>
+            </div>
+        </div>
+    </section>
+        
+
+                    {{-- @php
                         $product_lists=DB::table('products')->where('status','active')->orderBy('id','DESC')->limit(6)->get();
                     @endphp
                     @foreach($product_lists as $product)
@@ -287,7 +354,7 @@
                                 <div class="col-lg-6 col-md-6 col-12 no-padding">
                                     <div class="content">
                                         <h4 class="title"><a href="#">{{$product->title}}</a></h4>
-                                        <p class="price with-discount">${{number_format($product->discount,2)}}</p>
+                                        <p class="price with-discount">Rp{{number_format($product->discount,0, ',', '.')}}</p>
                                     </div>
                                 </div>
                                 </div>
@@ -300,70 +367,75 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!-- End Shop Home List  -->
 
 <!-- Start Shop Blog  -->
-<section class="shop-blog section">
+{{-- <section class="shop-blog section">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <h2>From Our Blog</h2>
+                    <h2>Jam Operasional Kantin</h2>
                 </div>
             </div>
         </div>
         <div class="row">
-            @if($posts)
-                @foreach($posts as $post)
-                    <div class="col-lg-4 col-md-6 col-12">
+            {{-- @if($posts)
+                @foreach($posts as $post) --}}
+                    {{-- <div class="col-lg-4 col-md-6 col-12 text:center">
                         <!-- Start Single Blog  -->
                         <div class="shop-single-blog">
-                            <img src="{{$post->photo}}" alt="{{$post->photo}}">
                             <div class="content">
-                                <p class="date">{{$post->created_at->format('d M , Y. D')}}</p>
+                                <p class="date">Senin-Jumat: 07:00 - 16:00</p>
+                                <p class="date">Sabtu: 08:00 - 15:00</p>
+                                <p class="date">Minggu: Tutup</p> --}}
+                            {{-- <img src="{{$post->photo}}" alt="{{$post->photo}}"> --}}
+                                {{-- <p class="date">{{$post->created_at->format('d M , Y. D')}}</p>
                                 <a href="{{route('blog.detail',$post->slug)}}" class="title">{{$post->title}}</a>
-                                <a href="{{route('blog.detail',$post->slug)}}" class="more-btn">Continue Reading</a>
-                            </div>
-                        </div>
+                                <a href="{{route('blog.detail',$post->slug)}}" class="more-btn">Continue Reading</a> --}}
+                            {{-- </div>
+                        </div> --}}
                         <!-- End Single Blog  -->
-                    </div>
-                @endforeach
-            @endif
+/                {{-- @endforeach --}}
+            {{-- @endif --}}
 
-        </div>
+        {{-- </div>
     </div>
-</section>
+</section> --}} 
 <!-- End Shop Blog  -->
 
 <!-- Start Shop Services Area -->
-<section class="shop-services section home">
+{{-- <section class="shop-services section home">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-6 col-12">
                 <!-- Start Single Service -->
                 <div class="single-service">
-                    <i class="ti-rocket"></i>
-                    <h4>Free shiping</h4>
-                    <p>Orders over $100</p>
+                    <i class="ti-hand-drag"></i>
+                    <h4>Pembayaran Tunai</h4>
+                    <p>Pembayaran dilakukan secara tunai saat menerima pesanan</p>
                 </div>
                 <!-- End Single Service -->
             </div>
             <div class="col-lg-3 col-md-6 col-12">
                 <!-- Start Single Service -->
                 <div class="single-service">
-                    <i class="ti-reload"></i>
-                    <h4>Free Return</h4>
-                    <p>Within 30 days returns</p>
+                    <i class="ti-money"></i>
+                    <h4>Pengembalian Makanan Minuman Kadaluarsa</h4>
+                    <p>Pengembalian uang makanan,minuman yang kadaluarsa</p>
                 </div>
                 <!-- End Single Service -->
             </div>
             <div class="col-lg-3 col-md-6 col-12">
                 <!-- Start Single Service -->
                 <div class="single-service">
-                    <i class="ti-lock"></i>
-                    <h4>Sucure Payment</h4>
-                    <p>100% secure payment</p>
+                    <i class="ti-check"></i>
+                    <h4>PILIHAN MAKANAN MINUMAN SEHAT
+                    </h4>
+                    <p>Makanan, Minuman Sehat dan Berkualitas
+
+                    </p>
                 </div>
                 <!-- End Single Service -->
             </div>
@@ -371,14 +443,17 @@
                 <!-- Start Single Service -->
                 <div class="single-service">
                     <i class="ti-tag"></i>
-                    <h4>Best Peice</h4>
-                    <p>Guaranteed price</p>
-                </div>
+                    <h4>HARGA TERBAIK
+                    </h4>
+                    <p>Harga tejangkau untuk semua
+
+                    </p>
+                </div> --}}
                 <!-- End Single Service -->
-            </div>
+            {{-- </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!-- End Shop Services Area -->
 
 @include('frontend.layouts.newsletter')
@@ -447,7 +522,7 @@
                                         @php
                                             $after_discount=($product->price-($product->price*$product->discount)/100);
                                         @endphp
-                                        <h3><small><del class="text-muted">${{number_format($product->price,2)}}</del></small>    ${{number_format($after_discount,2)}}  </h3>
+                                        <h3><small><del class="text-muted">Rp{{number_format($product->price,0,'.', '.')}}</del></small>    Rp{{number_format($after_discount,0, ',','.')}}  </h3>
                                         <div class="quickview-peragraph">
                                             <p>{!! html_entity_decode($product->summary) !!}</p>
                                         </div>
@@ -499,7 +574,7 @@
                                                 <!--/ End Input Order -->
                                             </div>
                                             <div class="add-to-cart">
-                                                <button type="submit" class="btn">Add to cart</button>
+                                                <button type="submit" class="btn">Masukkan Ke Keranjang</button>
                                                 <a href="{{route('add-to-wishlist',$product->slug)}}" class="btn min"><i class="ti-heart"></i></a>
                                             </div>
                                         </form>
@@ -604,6 +679,7 @@
             });
         });
     </script>
+
     <script>
          function cancelFullScreen(el) {
             var requestMethod = el.cancelFullScreen||el.webkitCancelFullScreen||el.mozCancelFullScreen||el.exitFullscreen;
@@ -629,6 +705,12 @@
                     wscript.SendKeys("{F11}");
                 }
             }
+            docment.querySelector('.prev').addEventListener('click' , function()(
+
+            ));
+            document.querySelector('.next').addEventListener('click', function() {
+
+            )|;
             return false
         }
     </script>
